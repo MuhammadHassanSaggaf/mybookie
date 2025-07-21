@@ -97,6 +97,35 @@ const Dashboard = () => {
     });
   };
 
+  // Switch to showing all books and library view
+  const handleShowAllBooks = () => {
+    setShowAllBooks(true);
+    setCurrentView('library');
+  };
 
 
-}
+  // Return to dashboard view and reset expansions
+  const handleBackToDashboard = () => {
+    setShowAllBooks(false);
+    setCurrentView('dashboard');
+    setExpandedBooks(new Set());
+  };
+
+
+    const recentBooks = sampleBooks.slice(0, 3);
+   const displayBooks = currentView === 'dashboard' ? recentBooks : sampleBooks;  // Determine list to render
+
+
+  // Returns the title text based on current view
+  const getViewTitle = () => {
+    switch (currentView) {
+      case 'library': return 'Full Library';
+      case 'add': return 'Add New Book';
+      case 'borrowed': return 'Borrowed Books';
+      case 'favorites': return 'Favorites';
+      default: return 'Your Library Dashboard';
+    }
+  };
+
+
+  }
