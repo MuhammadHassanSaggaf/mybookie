@@ -76,3 +76,27 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
     </div>
   );
 };
+
+
+// Main dashboard component managing views and state
+const Dashboard = () => {
+ const [expandedBooks, setExpandedBooks] = useState(new Set());
+ const [showAllBooks, setShowAllBooks] = useState(false);
+  const [currentView, setCurrentView] = useState('dashboard');
+
+   // Toggles expansion state for a particular book
+  const handleShowMore = (bookId) => {
+    setExpandedBooks(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(bookId)) {
+        newSet.delete(bookId);
+      } else {
+        newSet.add(bookId);
+      }
+      return newSet;
+    });
+  };
+
+
+
+}
