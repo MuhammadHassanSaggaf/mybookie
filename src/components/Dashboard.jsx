@@ -127,5 +127,40 @@ const Dashboard = () => {
     }
   };
 
+return (
+ <div> {/* Page wrapper */}
+      <header> 
+        <div>
+          <div>
+            <div>
+              {currentView !== 'dashboard' && ( // If not on dashboard, show back button
+                <button
+                  onClick={handleBackToDashboard}
+                  aria-label="Back to dashboard"
+                >
+                  <ArrowLeft />
+                </button>
+              )}
+              <h1>
+                {getViewTitle()} {/* Display current view title */}
+              </h1>
+            </div>
+            <nav> {/* Navigation buttons for different views */}
+              <button onClick={() => setCurrentView('add')}>
+                <Plus />
+                Add Book
+              </button>
+              <button onClick={() => setCurrentView('borrowed')}>
+                Borrowed
+              </button>
+              <button onClick={() => setCurrentView('favorites')}>
+                Favorites
+              </button>
+            </nav>
+          </div>
+        </div>
+      </header>
 
+);
   }
+  export default  Dashboard ;
