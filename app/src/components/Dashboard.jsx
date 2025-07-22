@@ -1,114 +1,125 @@
+// src/components/Dashboard.jsx
 "use client";
 import React, { useState } from "react";
-import { Book, ChevronUp, Eye, Heart } from "lucide-react";
+import {
+	BookOpenIcon,
+	ChevronUpIcon,
+	EyeIcon,
+	HeartIcon,
+} from "@heroicons/react/24/outline";
 
 // Import static data
-import booksData from "../data/books.json";
+import booksData from "../data/db.json";
 
 // Component for displaying individual book information
 const BookCard = ({ book, onShowMore, isExpanded }) => {
-  const [imageError, setImageError] = useState(false); //Tracking if image failed to load
+	const [imageError, setImageError] = useState(false);
 
   return (
-    <div className="cardContainer">
-      <div id="img-available">
-        {!imageError ? (
-          <img
-            src={book.coverUrl}
-            alt={`${book.title} cover`}
-            onError={() => setImageError(true)}
-          />
-        ) : (
-          <div>
-            <Book aria-label="Book cover not available" />{" "}
-            {/* Placeholder icon */}
-          </div>
-        )}
-      </div>
+		// <div className="flex flex-wrap w-80 justify-center items-center gap-5 mx-auto">
+		<div className="block mt-2 bg-white w-64 rounded-[15px] shadow-md transition-shadow transition-transform duration-600 ease-in-out">
+			<div
+				id="img-available "
+				className=" bg-gray-50 flex items-center justify-center "
+			>
+				{!imageError ? (
+					<img
+						src={book.coverUrl}
+						alt={`${book.title} cover`}
+						onError={() => setImageError(true)}
+					/>
+				) : (
+					<div className="flex items-center justify-center h-32 w-24 bg-gray-100">
+						<BookOpenIcon
+							aria-label="Book cover not available"
+							className="h-8 w-8 text-gray-400"
+						/>
+					</div>
+				)}
+			</div>
 
-      <div>
-        {/* Textual details section */}
-        <h3>{book.title}</h3>
-        <p>by {book.author}</p>
-        <div>
-          {/* Description and action buttons */}
-          <p>{isExpanded ? book.fullDescription : book.description}</p>
+			<div className="p-4">
+				<h3 className="text-lg font-semibold">{book.title}</h3>
+				<p className="text-sm text-gray-600 mb-2">by {book.author}</p>
 
-          <button
-            onClick={() => onShowMore(book.id)} // Toggle description expansion
-          >
-            {isExpanded ? (
-              <>
-                <ChevronUp />
-                Show Less
-              </>
-            ) : (
-              <>
-                <Eye />
-                Show More
-              </>
-            )}
-          </button>
+				<p className="mb-2">
+					{isExpanded ? book.fullDescription : book.description}
+				</p>
+				<button
+					onClick={() => onShowMore(book.id)}
+					className="border-none  rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
+				>
+					{isExpanded ? (
+						<>
+							<EyeIcon className="h-5 w-5 mr-1" />
+							Show More
+						</>
+					) : (
+						<>
+							<ChevronUpIcon className="h-5 w-5 mr-1" />
+							Show Less
+						</>
+					)}
+				</button>
 
-          <div>
-            {/* Category and favorite button */}
-            <span>{book.category}</span>
-            <button
-              aria-label="Add to favorites" // Accessibility label
-            >
-              <Heart />
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+				<div className="flex items-center justify-between">
+					<span className="text-xs uppercase text-gray-500">
+						{book.category}
+					</span>
+					<button aria-label="Add to favorites" className="hover:text-red-500">
+						<HeartIcon className="h-5 w-5" />
+					</button>
+				</div>
+			</div>
+		</div>
+		// </div>
+	);
 };
 
 // Main dashboard component managing views and state
 const Dashboard = () => {
-  const [books] = useState(booksData.books);
-  const [expandedBooks, setExpandedBooks] = useState(new Set());
-  const [showAllBooks, setShowAllBooks] = useState(false);
+	const [books] = useState(booksData.books);
+	const [expandedBooks, setExpandedBooks] = useState(new Set());
+	const [showAllBooks, setShowAllBooks] = useState(false);
 
-  const handleShowAllBooks = () => {
-    setShowAllBooks(true);
-  };
+	const handleShowAllBooks = () => setShowAllBooks(true);
 
-  // Toggles expansion state for a particular book
-  const handleShowMore = (bookId) => {
-    setExpandedBooks((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(bookId)) {
-        newSet.delete(bookId);
-      } else {
-        newSet.add(bookId);
-      }
-      return newSet;
-    });
-  };
+	const handleShowMore = (bookId) => {
+		setExpandedBooks((prev) => {
+			const newSet = new Set(prev);
+			newSet.has(bookId) ? newSet.delete(bookId) : newSet.add(bookId);
+			return newSet;
+		});
+	};
 
-  const displayBooks = showAllBooks ? books : books.slice(0, 3);
+	const displayBooks = showAllBooks ? books : books.slice(0, 3);
 
-  return (
-    <main>
-      <div>
-        {displayBooks.map((book) => (
-          <BookCard
-            key={book.id}
-            book={book}
-            onShowMore={handleShowMore}
-            isExpanded={expandedBooks.has(book.id)}
-          />
-        ))}
-      </div>
-      <div>
-        <button onClick={handleShowAllBooks}>
-          <Book />
-          Show All Books ({books.length} total)
-        </button>
-      </div>
-    </main>
-  );
+	return (
+		<main className="p-6">
+			<div className="grid gap-6">
+				{displayBooks.map((book) => (
+					<BookCard
+						key={book.id}
+						book={book}
+						onShowMore={handleShowMore}
+						isExpanded={expandedBooks.has(book.id)}
+					/>
+				))}
+			</div>
+
+			{!showAllBooks && (
+				<div className="mt-6 text-center">
+					<button
+						onClick={handleShowAllBooks}
+						className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+					>
+						<BookOpenIcon className="h-5 w-5 mr-2" />
+						Show All Books ({books.length} total)
+					</button>
+				</div>
+			)}
+		</main>
+	);
 };
+
 export default Dashboard;
