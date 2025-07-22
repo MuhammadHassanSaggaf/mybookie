@@ -7,7 +7,10 @@ import {
   ArrowLeft,
   Plus,
   Heart,
-} from "your-icon-library";
+}  from "lucide-react";
+
+// Import static data
+ import booksData from "../data/books.json";
 
 // Component for displaying individual book information
 const BookCard = ({ book, onShowMore, isExpanded }) => {
@@ -27,9 +30,7 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
             <Book /> {/* Placeholder icon */}
           </div>
         )}
-        {!book.isAvailable && ( // If book is not available, show "Borrowed" label
-          <div>Borrowed</div>
-        )}
+      
       </div>
 
       <div>
@@ -48,19 +49,16 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
             {isExpanded ? (
               <>
                 <ChevronUp />
-                Show Less
+                Show More
               </>
             ) : (
               <>
                 <Eye />
-                Show More
+                Show Less
               </>
             )}
           </button>
 
-          {!book.isAvailable && ( // If borrowed, show who borrowed it
-            <div>Borrowed by {book.borrowedBy}</div>
-          )}
 
           <div>
             {" "}
@@ -80,9 +78,15 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
 // Main dashboard component managing views and state
 const Dashboard = () => {
+  const [books]         = useState(booksData.books);
   const [expandedBooks, setExpandedBooks] = useState(new Set());
   const [showAllBooks, setShowAllBooks] = useState(false);
-  const [currentView, setCurrentView] = useState("dashboard");
+
+const handleShowAllBooks = () => {
+  setShowAllBooks(true);
+};
+
+
 
   // Toggles expansion state for a particular book
   const handleShowMore = (bookId) => {
@@ -97,85 +101,16 @@ const Dashboard = () => {
     });
   };
 
-  // Switch to showing all books and library view
-  const handleShowAllBooks = () => {
-    setShowAllBooks(true);
-    setCurrentView("library");
-  };
 
-  // Return to dashboard view and reset expansions
-  const handleBackToDashboard = () => {
-    setShowAllBooks(false);
-    setCurrentView("dashboard");
-    setExpandedBooks(new Set());
-  };
 
-  const recentBooks = sampleBooks.slice(0, 3);
-  const displayBooks = currentView === "dashboard" ? recentBooks : sampleBooks; // Determine list to render
 
-  // Returns the title text based on current view
-  const getViewTitle = () => {
-    switch (currentView) {
-      case "library":
-        return "Full Library";
-      case "add":
-        return "Add New Book";
-      case "borrowed":
-        return "Borrowed Books";
-      case "favorites":
-        return "Favorites";
-      default:
-        return "Your Library Dashboard";
-    }
-  };
+const displayBooks = showAllBooks ? books : books.slice(0, 3);
+
+
 
   return (
-    <div>
-      {" "}
-      {/* Page wrapper */}
-      <header>
-        <div>
-          <div>
-            <div>
-              {currentView !== "dashboard" && ( // If not on dashboard, show back button
-                <button
-                  onClick={handleBackToDashboard}
-                  aria-label="Back to dashboard"
-                >
-                  <ArrowLeft />
-                </button>
-              )}
-              <h1>
-                {getViewTitle()} {/* Display current view title */}
-              </h1>
-            </div>
-            <nav>
-              {" "}
-              {/* Navigation buttons for different views */}
-              <button onClick={() => setCurrentView("add")}>
-                <Plus />
-                Add Book
-              </button>
-              <button onClick={() => setCurrentView("borrowed")}>
-                Borrowed
-              </button>
-              <button onClick={() => setCurrentView("favorites")}>
-                Favorites
-              </button>
-            </nav>
-          </div>
-        </div>
-      </header>
-      {/* Main content area switching by view */}
-      <main>
-        {currentView === "dashboard" && (
-          <>
-            {" "}
-            {/* Dashboard view: show recent books and a button to view all */}
-            <div>
-              <h2>Recently Added</h2>
-              <p>Your latest book additions</p>
-            </div>
+    <main>
+    
             <div>
               {displayBooks.map((book) => (
                 <BookCard
@@ -189,71 +124,11 @@ const Dashboard = () => {
             <div>
               <button onClick={handleShowAllBooks}>
                 <Book />
-                Show All Books ({sampleBooks.length} total)
+                Show All Books ({books.length} total)
               </button>
             </div>
-          </>
-        )}
-
-        {currentView === "library" && (
-          <>
-            {" "}
-            {/* Full library view */}
-            <div>
-              <h2>Complete Collection</h2>
-              <p>Browse your entire library</p>
-            </div>
-            <div>
-              {displayBooks.map((book) => (
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  onShowMore={handleShowMore}
-                  isExpanded={expandedBooks.has(book.id)}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {currentView === "add" && (
-          <div>
-            {" "}
-            {/* "Add New Book" placeholder */}
-            <div>
-              <h2>Add New Book</h2>
-              <p>This would contain your book addition form.</p>
-              <div>
-                <p>
-                  Form components would go here - title, author, description,
-                  cover upload, etc.
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {(currentView === "borrowed" || currentView === "favorites") && (
-          <div>
-            {" "}
-            {/* Empty state for borrowed or favorites views */}
-            <div>
-              <Book />
-              <h3>
-                {currentView === "borrowed"
-                  ? "No Borrowed Books"
-                  : "No Favorites Yet"}
-              </h3>
-              <p>
-                {currentView === "borrowed"
-                  ? "Books you've lent out will appear here."
-                  : "Books you mark as favorites will appear here."}
-              </p>
-            </div>
-          </div>
-        )}
-      </main>
-    </div>
+  
+    </main>
   );
 };
 export default Dashboard;
