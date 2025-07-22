@@ -1,20 +1,13 @@
 "use client";
 import React, { useState } from "react";
-import {
-  Book,
-  ChevronUp,
-  Eye,
-  ArrowLeft,
-  Plus,
-  Heart,
-}  from "lucide-react";
+import { Book, ChevronUp, Eye, Heart } from "lucide-react";
 
 // Import static data
- import booksData from "../data/books.json";
+import booksData from "../data/books.json";
 
 // Component for displaying individual book information
 const BookCard = ({ book, onShowMore, isExpanded }) => {
-  const [imageError, setImageError] = useState(false); //Tracking if image fasiled to load
+  const [imageError, setImageError] = useState(false); //Tracking if image failed to load
 
   return (
     <div className="cardContainer">
@@ -27,10 +20,10 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
           />
         ) : (
           <div>
-            <Book /> {/* Placeholder icon */}
+            <Book aria-label="Book cover not available" />{" "}
+            {/* Placeholder icon */}
           </div>
         )}
-      
       </div>
 
       <div>
@@ -43,25 +36,21 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
           <button
             onClick={() => onShowMore(book.id)} // Toggle description expansion
-            aria-expanded={isExpanded} // Accessibility attribute
-            aria-controls={`book-description-${book.id}`} // Link to controlled element
           >
             {isExpanded ? (
               <>
                 <ChevronUp />
-                Show More
+                Show Less
               </>
             ) : (
               <>
                 <Eye />
-                Show Less
+                Show More
               </>
             )}
           </button>
 
-
           <div>
-            {" "}
             {/* Category and favorite button */}
             <span>{book.category}</span>
             <button
@@ -78,15 +67,13 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
 // Main dashboard component managing views and state
 const Dashboard = () => {
-  const [books]         = useState(booksData.books);
+  const [books] = useState(booksData.books);
   const [expandedBooks, setExpandedBooks] = useState(new Set());
   const [showAllBooks, setShowAllBooks] = useState(false);
 
-const handleShowAllBooks = () => {
-  setShowAllBooks(true);
-};
-
-
+  const handleShowAllBooks = () => {
+    setShowAllBooks(true);
+  };
 
   // Toggles expansion state for a particular book
   const handleShowMore = (bookId) => {
@@ -101,33 +88,26 @@ const handleShowAllBooks = () => {
     });
   };
 
-
-
-
-const displayBooks = showAllBooks ? books : books.slice(0, 3);
-
-
+  const displayBooks = showAllBooks ? books : books.slice(0, 3);
 
   return (
     <main>
-    
-            <div>
-              {displayBooks.map((book) => (
-                <BookCard
-                  key={book.id}
-                  book={book}
-                  onShowMore={handleShowMore}
-                  isExpanded={expandedBooks.has(book.id)}
-                />
-              ))}
-            </div>
-            <div>
-              <button onClick={handleShowAllBooks}>
-                <Book />
-                Show All Books ({books.length} total)
-              </button>
-            </div>
-  
+      <div>
+        {displayBooks.map((book) => (
+          <BookCard
+            key={book.id}
+            book={book}
+            onShowMore={handleShowMore}
+            isExpanded={expandedBooks.has(book.id)}
+          />
+        ))}
+      </div>
+      <div>
+        <button onClick={handleShowAllBooks}>
+          <Book />
+          Show All Books ({books.length} total)
+        </button>
+      </div>
     </main>
   );
 };
