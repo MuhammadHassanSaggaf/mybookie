@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
-import { Book, User, Eye, Calendar } from 'lucide-react';
 
 const BookData = ({ 
   bookId = "1",
-  title = "The Great Adventure", 
-  author = "John Smith",
-  imageUrl = "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=400&fit=crop",
-  description = "An epic tale of courage and discovery that takes readers on a thrilling journey through unexplored territories. This captivating story weaves together elements of adventure, mystery, and human resilience in a way that keeps you turning pages late into the night.",
+  title = "Sample Book Title", 
+  author = "Sample Author",
+  imageUrl = "https://via.placeholder.com/300x400",
+  description = "This is a sample book description that explains what the book is about.",
   totalCopies = 5,
   borrowedCopies = 2,
-  genre = "Adventure",
+  genre = "Fiction",
   publishedYear = "2023",
   isbn = "978-1234567890",
-  rating = 4.5
+  rating = 4.5,
+  onBorrow = null // Function to handle borrow action
 }) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [isProcessingBorrow, setIsProcessingBorrow] = useState(false);
   
   const availableCopies = totalCopies - borrowedCopies;
-  const availabilityStatus = availableCopies > 0 ? 'Available' : 'All Borrowed';
-  const statusColor = availableCopies > 0 ? 'text-green-600' : 'text-red-600';
-  
-  // Truncate description for preview
-  const truncatedDescription = description.length > 150 
-    ? description.substring(0, 150) + "..." 
-    : description;
+  const isAvailable = availableCopies > 0;
 
   const handleImageError = () => {
     setImageError(true);
@@ -34,94 +29,110 @@ const BookData = ({
     setShowFullDescription(!showFullDescription);
   };
 
+  const handleBorrow = async () => {
+    if (!isAvailable || isProcessingBorrow) return;
+    
+    setIsProcessingBorrow(true);
+    
+    try {
+      if (onBorrow) {
+        // Call the parent component's borrow function
+        await onBorrow({
+          bookId,
+          title,
+          author,
+          borrowDate: new Date().toISOString()
+        });
+      } else {
+        // Default behavior - simulate API call
+        console.log(`Borrowing book: ${title} (ID: ${bookId})`);
+        
+        // Simulate API delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        alert(`Successfully borrowed "${title}"!`);
+      }
+    } catch (error) {
+      console.error('Error borrowing book:', error);
+      alert('Failed to borrow book. Please try again.');
+    } finally {
+      setIsProcessingBorrow(false);
+    }
+  };
+
   return (
-    <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
-      <div className="md:flex">
+    <div>
+      {/* Book Title */}
+      <div>
+        <h1>{title}</h1>
+        <p>Book ID: {bookId}</p>
+      </div>
+
+      {/* Main Content Container */}
+      <div>
         {/* Image Preview Section */}
-        <div className="md:w-1/3 p-6">
-          <div className="relative">
-            {!imageError ? (
-              <img
-                src={imageUrl}
-                alt={`Cover of ${title}`}
-                className="w-full h-80 object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
-                onError={handleImageError}
-              />
-            ) : (
-              <div className="w-full h-80 bg-gray-200 rounded-lg flex items-center justify-center">
-                <div className="text-center text-gray-500">
-                  <Book size={48} className="mx-auto mb-2" />
-                  <p>No Image Available</p>
-                </div>
-              </div>
-            )}
-            
-            {/* Rating Badge */}
-            <div className="absolute top-2 right-2 bg-yellow-500 text-white px-2 py-1 rounded-full text-sm font-semibold">
-              ⭐ {rating}
+        <div>
+          <h2>Book Cover</h2>
+          {!imageError ? (
+            <img
+              src={imageUrl}
+              alt={`Cover of ${title}`}
+              onError={handleImageError}
+            />
+          ) : (
+            <div>
+              <p>No Image Available</p>
+              <p>📚</p>
             </div>
-          </div>
+          )}
+          
+          {rating && (
+            <div>
+              <span>Rating: {rating}/5 ⭐</span>
+            </div>
+          )}
         </div>
 
         {/* Book Information Section */}
-        <div className="md:w-2/3 p-6">
-          {/* Title and Author */}
-          <div className="mb-4">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{title}</h1>
-            <div className="flex items-center text-lg text-gray-600 mb-2">
-              <User size={18} className="mr-2" />
-              <span>by {author}</span>
-            </div>
-            <div className="flex items-center text-sm text-gray-500 space-x-4">
-              <span className="flex items-center">
-                <Calendar size={14} className="mr-1" />
-                {publishedYear}
-              </span>
-              <span>{genre}</span>
-              <span>ISBN: {isbn}</span>
-            </div>
+        <div>
+          {/* Author Information */}
+          <div>
+            <h2>Author Information</h2>
+            <p>Author: {author}</p>
+            {genre && <p>Genre: {genre}</p>}
+            {publishedYear && <p>Published: {publishedYear}</p>}
+            {isbn && <p>ISBN: {isbn}</p>}
           </div>
 
-          {/* Availability Status */}
-          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
-            <h3 className="text-lg font-semibold mb-3 text-gray-800">Availability Status</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">{totalCopies}</div>
-                <div className="text-sm text-gray-600">Total Copies</div>
+          {/* Books Borrowed/Available Section */}
+          <div>
+            <h2>Availability Status</h2>
+            <div>
+              <div>
+                <p>Total Copies: {totalCopies}</p>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-red-600">{borrowedCopies}</div>
-                <div className="text-sm text-gray-600">Books Borrowed</div>
+              <div>
+                <p>Books Borrowed: {borrowedCopies}</p>
               </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold text-green-600">{availableCopies}</div>
-                <div className="text-sm text-gray-600">Books Available</div>
+              <div>
+                <p>Books Available: {availableCopies}</p>
               </div>
-              <div className="text-center">
-                <div className={`text-lg font-semibold ${statusColor}`}>
-                  {availabilityStatus}
-                </div>
-                <div className="text-sm text-gray-600">Status</div>
+              <div>
+                <p>Status: {isAvailable ? 'Available' : 'All Borrowed'}</p>
               </div>
             </div>
           </div>
 
           {/* Book Description */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-3 text-gray-800 flex items-center">
-              <Eye size={18} className="mr-2" />
-              Description
-            </h3>
-            <div className="text-gray-700 leading-relaxed">
-              <p className="mb-3">
-                {showFullDescription ? description : truncatedDescription}
+          <div>
+            <h2>Description</h2>
+            <div>
+              <p>
+                {showFullDescription ? description : 
+                 (description.length > 150 ? description.substring(0, 150) + "..." : description)}
               </p>
               {description.length > 150 && (
-                <button
-                  onClick={toggleDescription}
-                  className="text-blue-600 hover:text-blue-800 font-medium text-sm transition-colors duration-200"
-                >
+                <button onClick={toggleDescription}>
                   {showFullDescription ? 'Show Less' : 'Read More'}
                 </button>
               )}
@@ -129,23 +140,16 @@ const BookData = ({
           </div>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap gap-3">
+          <div>
             <button 
-              className={`px-6 py-2 rounded-lg font-medium transition-all duration-200 ${
-                availableCopies > 0 
-                  ? 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-md' 
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              }`}
-              disabled={availableCopies === 0}
+              onClick={handleBorrow}
+              disabled={!isAvailable || isProcessingBorrow}
             >
-              {availableCopies > 0 ? 'Borrow Book' : 'Not Available'}
+              {isProcessingBorrow ? 'Processing...' : 
+               (isAvailable ? 'Borrow Book' : 'Not Available')}
             </button>
-            <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-all duration-200 hover:shadow-md">
-              Add to Wishlist
-            </button>
-            <button className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium transition-all duration-200 hover:shadow-md">
-              Share Book
-            </button>
+            <button>Add to Wishlist</button>
+            <button>Share Book</button>
           </div>
         </div>
       </div>
@@ -153,15 +157,15 @@ const BookData = ({
   );
 };
 
-// Example usage component to show how to use BookData
+// Example parent component showing how to use BookData with functional borrow
 const App = () => {
-  const sampleBooks = [
+  const [books, setBooks] = useState([
     {
       bookId: "1",
       title: "The Great Adventure",
       author: "John Smith",
       imageUrl: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=300&h=400&fit=crop",
-      description: "An epic tale of courage and discovery that takes readers on a thrilling journey through unexplored territories. This captivating story weaves together elements of adventure, mystery, and human resilience in a way that keeps you turning pages late into the night.",
+      description: "An epic tale of courage and discovery that takes readers on a thrilling journey through unexplored territories. This captivating story weaves together elements of adventure, mystery, and human resilience.",
       totalCopies: 5,
       borrowedCopies: 2,
       genre: "Adventure",
@@ -169,44 +173,58 @@ const App = () => {
       rating: 4.5
     },
     {
-      bookId: "2",
+      bookId: "2", 
       title: "Digital Dreams",
       author: "Sarah Johnson",
       imageUrl: "https://images.unsplash.com/photo-1592496431122-2349e0fbc666?w=300&h=400&fit=crop",
-      description: "A fascinating exploration of artificial intelligence and its impact on society. This thought-provoking novel challenges readers to consider the future of technology and human connection in an increasingly digital world.",
+      description: "A fascinating exploration of artificial intelligence and its impact on society.",
       totalCopies: 3,
       borrowedCopies: 3,
-      genre: "Science Fiction",
+      genre: "Science Fiction", 
       publishedYear: "2024",
       rating: 4.2
     }
-  ];
+  ]);
 
-  const [currentBook, setCurrentBook] = useState(0);
+  const [currentBookIndex, setCurrentBookIndex] = useState(0);
+
+  // Functional borrow handler
+  const handleBorrow = async (borrowInfo) => {
+    console.log('Borrow request received:', borrowInfo);
+    
+    // Update the book's borrowed count
+    setBooks(prevBooks => 
+      prevBooks.map(book => 
+        book.bookId === borrowInfo.bookId 
+          ? { ...book, borrowedCopies: book.borrowedCopies + 1 }
+          : book
+      )
+    );
+    
+    // Here you would typically make an API call to your backend
+    // Example:
+    // await fetch('/api/borrow', {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify(borrowInfo)
+    // });
+    
+    console.log(`Book "${borrowInfo.title}" borrowed successfully!`);
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 py-8">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">The Booker - Library System</h1>
-        
-        {/* Book Navigation */}
-        <div className="text-center mb-6">
-          <button
-            onClick={() => setCurrentBook(0)}
-            className={`mx-2 px-4 py-2 rounded ${currentBook === 0 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-          >
-            Book 1
-          </button>
-          <button
-            onClick={() => setCurrentBook(1)}
-            className={`mx-2 px-4 py-2 rounded ${currentBook === 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-700'}`}
-          >
-            Book 2
-          </button>
-        </div>
-
-        <BookData {...sampleBooks[currentBook]} />
+    <div>
+      <h1>The Booker - Library System</h1>
+      
+      <div>
+        <button onClick={() => setCurrentBookIndex(0)}>Book 1</button>
+        <button onClick={() => setCurrentBookIndex(1)}>Book 2</button>
       </div>
+
+      <BookData 
+        {...books[currentBookIndex]} 
+        onBorrow={handleBorrow}
+      />
     </div>
   );
 };
