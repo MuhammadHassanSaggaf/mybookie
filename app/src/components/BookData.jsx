@@ -203,13 +203,6 @@ const App = () => {
       )
     );
     
-    // Here you would typically make an API call to your backend
-    // Example:
-    // await fetch('/api/borrow', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify(borrowInfo)
-    // });
     
     console.log(`Book "${borrowInfo.title}" borrowed successfully!`);
   };

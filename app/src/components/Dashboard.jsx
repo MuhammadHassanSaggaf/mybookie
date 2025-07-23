@@ -1,4 +1,3 @@
-// src/components/Dashboard.jsx
 "use client";
 import React, { useState } from "react";
 import {
@@ -16,7 +15,6 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 	const [imageError, setImageError] = useState(false);
 
   return (
-		// <div className="flex flex-wrap w-80 justify-center items-center gap-5 mx-auto">
 		<div className="block mt-2 shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
 			<div id="img-available " className="  flex items-center justify-center ">
 				{!imageError ? (
@@ -70,7 +68,6 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 				</div>
 			</div>
 		</div>
-		// </div>
 	);
 };
 
