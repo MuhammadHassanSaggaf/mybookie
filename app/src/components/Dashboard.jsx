@@ -91,7 +91,7 @@ const Dashboard = () => {
 
 	return (
 		<main className="p-6">
-			<div className="flex flex-wrap w-auto justify-center items-center gap-5 mx-auto">
+			<div className="flex flex-wrap w-auto justify-evenly items-center gap-auto mx-auto">
 				{displayBooks.map((book) => (
 					<BookCard
 						key={book.id}
