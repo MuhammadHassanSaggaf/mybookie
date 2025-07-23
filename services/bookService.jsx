@@ -1,4 +1,4 @@
-import { API } from "../app/src/api/API"
+import { API } from "../app/src/api/index"
 
 // Get all books
 export async function fetchBooks() {
