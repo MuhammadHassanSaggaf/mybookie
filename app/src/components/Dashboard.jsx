@@ -17,19 +17,17 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
   return (
 		// <div className="flex flex-wrap w-80 justify-center items-center gap-5 mx-auto">
-		<div className="block mt-2 bg-red-900 w-64 rounded-[15px] shadow-md transition-shadow transition-transform duration-600 ease-in-out">
-			<div
-				id="img-available "
-				className="  flex items-center justify-center "
-			>
+		<div className="block mt-2 shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
+			<div id="img-available " className="  flex items-center justify-center ">
 				{!imageError ? (
 					<img
 						src={book.coverUrl}
 						alt={`${book.title} cover`}
 						onError={() => setImageError(true)}
+						className="object-contain h-[278px] rounded-t-[15px]"
 					/>
 				) : (
-					<div className="flex items-center justify-center h-32 w-24 bg-gray-100">
+					<div className="flex items-center justify-center w-24 bg-gray-100">
 						<BookOpenIcon
 							aria-label="Book cover not available"
 							className="h-8 w-8 text-gray-400"
@@ -40,7 +38,7 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
 			<div className="p-4">
 				<h3 className="text-lg font-semibold">{book.title}</h3>
-				<p className="text-sm text-gray-600 mb-2">by {book.author}</p>
+				<p className="text-sm  mb-2">by {book.author}</p>
 
 				<p className="mb-2">
 					{isExpanded ? book.fullDescription : book.description}
@@ -111,7 +109,7 @@ const Dashboard = () => {
 				<div className="mt-6 text-center">
 					<button
 						onClick={handleShowAllBooks}
-						className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+						className="bg-gradient-to-br from-black via-gray-900 to-black text-white rounded-[10px] inline-flex items-center px-4 py-2  transition-all duration-300 ease-in-out shadow-[0_8px_20px_rgba(255,255,255,0.05)] hover:scale-105 hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] focus:outline-none focus:ring-2 focus:ring-white/30"
 					>
 						<BookOpenIcon className="h-5 w-5 mr-2" />
 						Show All Books ({books.length} total)

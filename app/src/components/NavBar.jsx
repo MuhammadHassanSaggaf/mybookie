@@ -13,23 +13,30 @@ export default function Navbar() {
 	];
 
 	return (
-		<nav className="bg-white shadow-md">
+		<nav
+			className="bg-[#0f172a] border-b border-white/10
+    shadow-md
+    sticky top-0 z-50 text-white "
+		>
 			<div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
 				{/* Logo / Brand */}
 				<Link
 					href="/"
-					className="text-2xl font-bold text-gray-800 hover:text-gray-600 hover:-translate-y-[1px] transition-transform duration-200"
+					className="text-2xl font-bold hover:-translate-y-[1px] transition-transform duration-200"
 				>
 					My Bookie
 				</Link>
 
 				{/* Desktop Links */}
-				<ul className="hidden md:flex justify-end items-center space-x-6">
+				<ul className="hidden md:flex justify-end items-center  space-x-6">
 					{navLinks.map(({ href, label }) => (
-						<li key={href} className="hover:-translate-y-[1px] transition-transform duration-200 ">
+						<li
+							key={href}
+							className="hover:-translate-y-[1px] transition-transform duration-200 "
+						>
 							<Link
 								href={href}
-								className="text-lg text-gray-700 hover:text-gray-900  transition duration-200   "
+								className="text-lg   hover:text-white transition duration-200   "
 							>
 								{label}
 							</Link>
@@ -44,19 +51,22 @@ export default function Navbar() {
 					aria-label="Toggle menu"
 				>
 					{open ? (
-						<XMarkIcon className="h-6 w-6 text-gray-800" />
+						<XMarkIcon className="h-6 w-6 text-white" />
 					) : (
-						<Bars3Icon className="h-6 w-6 text-gray-800" />
+						<Bars3Icon className="h-6 w-6 text-white" />
 					)}
 				</button>
 			</div>
 
 			{/* Mobile Menu */}
 			{open && (
-				<ul className="md:hidden bg-white border-t border-gray-200">
+				<ul className="md:hidden bg-[#0f172a] border-t border-white/10 text-white shadow-lg">
 					{navLinks.map(({ href, label }) => (
-						<li key={`mobile-${href}`} className="px-4 py-2">
-							<Link href={href} className="block">
+						<li
+							key={`mobile-${href}`}
+							className="px-4 py-3 hover:bg-white/10 transition"
+						>
+							<Link href={href} className="block w-full">
 								{label}
 							</Link>
 						</li>
