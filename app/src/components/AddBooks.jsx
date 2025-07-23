@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchBookDataFromISBN } from "../services/openLibraryService";
-import { addBookToLocal } from "../services/bookService";
+import { fetchBookDataFromISBN } from "../../../services/openLibraryService";
+import { addBookToLocal, fetchBooks } from "../../../services/bookService";
 
 export default function AddBooks() {
   const [isbn, setIsbn] = useState("");
@@ -41,9 +41,18 @@ export default function AddBooks() {
   }, [isbn]);
 
   async function handleAdd(e) {
-    e.preventDefault(); // Prevent default form submit behavior
+    e.preventDefault(); 
+
     try {
-      await addBookToLocal(bookData);
+
+     const books = await fetchBooks();
+     const maxId = books.reduce((max, b) => (b.id > max ? b.id : max), 0);
+     const newBook = {
+       ...bookData,
+       id: Number(maxId) + 1, 
+     };
+
+      await addBookToLocal(newBook);
       setBookData({
         id: "",
         title: "",

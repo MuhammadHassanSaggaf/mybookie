@@ -1,4 +1,4 @@
-import { API } from "../app/src/api";
+import { API } from "../app/src/api/API";
 
 export async function fetchBookDataFromISBN(isbn) {
   const res = await fetch(API.public.bookDataByISBN(isbn));
