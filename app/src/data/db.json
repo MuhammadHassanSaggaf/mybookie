@@ -1,34 +1,68 @@
 {
-	"books": [
-		{
-			"id": 1,
-			"title": "Sapiens: A Brief History of Humankind",
-			"author": "Yuval Noah Harari",
-			"isbn": "9780062316097",
-			"description": "A sweeping narrative of humanity’s creation and evolution, exploring how biology and history have defined us.",
-			"borrowedBy": "",
-			"dueDate": "",
-			"coverUrl": "https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg"
-		},
-		{
-			"id": 2,
-			"title": "The Hobbit",
-			"author": "J.R.R. Tolkien",
-			"isbn": "9780547928227",
-			"description": "Bilbo Baggins embarks on a thrilling quest with a band of dwarves to reclaim their mountain home from a fearsome dragon.",
-			"borrowedBy": "Alice",
-			"dueDate": "2025-08-01",
-			"coverUrl": "https://covers.openlibrary.org/b/isbn/9780547928227-M.jpg"
-		},
-		{
-			"id": 3,
-			"title": "Educated",
-			"author": "Tara Westover",
-			"isbn": "9780399590504",
-			"description": "A memoir of a woman who grows up in a strict and abusive household in rural Idaho but eventually escapes to learn about the wider world through education.",
-			"borrowedBy": "",
-			"dueDate": "",
-			"coverUrl": "https://covers.openlibrary.org/b/isbn/9780399590504-M.jpg"
-		}
-	]
+  "books": [
+    {
+      "id": "1",
+      "title": "Sapiens: A Brief History of Humankind",
+      "author": "Yuval Noah Harari",
+      "isbn": "9780062316097",
+      "description": "A sweeping narrative of humanity’s creation and evolution, exploring how biology and history have defined us.",
+      "borrowedBy": "CurrentUser",
+      "dueDate": "2025-12-31",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "2",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "isbn": "9780547928227",
+      "description": "Bilbo Baggins embarks on a thrilling quest with a band of dwarves to reclaim their mountain home from a fearsome dragon.",
+      "borrowedBy": "Alice",
+      "dueDate": "2025-08-01",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780547928227-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "3",
+      "title": "Educated",
+      "author": "Tara Westover",
+      "isbn": "9780399590504",
+      "description": "A memoir of a woman who grows up in a strict and abusive household in rural Idaho but eventually escapes to learn about the wider world through education.",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780399590504-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "4",
+      "title": "Blink",
+      "author": "Malcolm Gladwell",
+      "isbn": "9780316057905",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780316057905-M.jpg",
+      "isFavourite": false
+    },
+    {
+      "id": "5",
+      "title": "The Man Who Knew Too Much",
+      "author": "Gilbert Keith Chesterton",
+      "isbn": "9781600965227",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg"
+    },
+    {
+      "id": "6",
+      "title": "Enchanters' End Game (The Belgariad, Book 5)",
+      "author": "David Eddings",
+      "isbn": "9780345418869",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780345418869-M.jpg"
+    }
+  ]
 }

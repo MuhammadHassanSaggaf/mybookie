@@ -15,7 +15,7 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 	const [imageError, setImageError] = useState(false);
 
   return (
-		<div className="block mt-2 shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
+		<div className="mt-4 mr-4 ml-4 flex flex-col justify-evenly flex-wrap shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
 			<div id="img-available " className="  flex items-center justify-center ">
 				{!imageError ? (
 					<img
@@ -38,22 +38,23 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 				<h3 className="text-lg font-semibold">{book.title}</h3>
 				<p className="text-sm  mb-2">by {book.author}</p>
 
-				<p className="mb-2">
-					{isExpanded ? book.fullDescription : book.description}
-				</p>
+				{isExpanded && (
+					<p className="mb-2">{book.fullDescription || book.description}</p>
+				)}
+
 				<button
 					onClick={() => onShowMore(book.id)}
 					className="border-none  rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
 				>
 					{isExpanded ? (
 						<>
-							<EyeIcon className="h-5 w-5 mr-1" />
-							Show More
+							<ChevronUpIcon className="h-5 w-5 mr-1" />
+							Show Less
 						</>
 					) : (
 						<>
-							<ChevronUpIcon className="h-5 w-5 mr-1" />
-							Show Less
+							<EyeIcon className="h-5 w-5 mr-1" />
+							Show More
 						</>
 					)}
 				</button>
