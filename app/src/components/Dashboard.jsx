@@ -15,7 +15,7 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 	const [imageError, setImageError] = useState(false);
 
   return (
-		<div className="block mt-2 shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
+		<div className="mt-4 mr-4 ml-4 flex flex-col justify-evenly flex-wrap shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
 			<div id="img-available " className="  flex items-center justify-center ">
 				{!imageError ? (
 					<img
