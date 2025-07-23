@@ -38,22 +38,23 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 				<h3 className="text-lg font-semibold">{book.title}</h3>
 				<p className="text-sm  mb-2">by {book.author}</p>
 
-				<p className="mb-2">
-					{isExpanded ? book.fullDescription : book.description}
-				</p>
+				{isExpanded && (
+					<p className="mb-2">{book.fullDescription || book.description}</p>
+				)}
+
 				<button
 					onClick={() => onShowMore(book.id)}
 					className="border-none  rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
 				>
 					{isExpanded ? (
 						<>
-							<EyeIcon className="h-5 w-5 mr-1" />
-							Show More
+							<ChevronUpIcon className="h-5 w-5 mr-1" />
+							Show Less
 						</>
 					) : (
 						<>
-							<ChevronUpIcon className="h-5 w-5 mr-1" />
-							Show Less
+							<EyeIcon className="h-5 w-5 mr-1" />
+							Show More
 						</>
 					)}
 				</button>
