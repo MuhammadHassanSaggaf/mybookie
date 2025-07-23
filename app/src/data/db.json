@@ -53,6 +53,16 @@
       "borrowedBy": "",
       "dueDate": "",
       "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg"
+    },
+    {
+      "id": "6",
+      "title": "Enchanters' End Game (The Belgariad, Book 5)",
+      "author": "David Eddings",
+      "isbn": "9780345418869",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780345418869-M.jpg"
     }
   ]
 }
