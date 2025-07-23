@@ -53,7 +53,7 @@ const renderList = (items) =>
 	const borrowed = books.filter((b) => b.borrowedBy);
 
 return (
-	<aside className="w-64 bg-[#0f172a] text-white p-6 rounded-r-lg shadow-lg border-r border-b border-white/10 flex flex-col">
+	<aside className=" bg-[#0f172a] w-50 text-white p-6 rounded-r-lg shadow-lg border-r border-b border-white/10 flex flex-col">
 		{(!filter || filter === "all") && (
 			<section className="mb-6 border-b border-white/10 pb-4">
 				<h2
