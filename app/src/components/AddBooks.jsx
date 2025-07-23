@@ -40,7 +40,8 @@ export default function AddBooks() {
     }
   }, [isbn]);
 
-  async function handleAdd() {
+  async function handleAdd(e) {
+    e.preventDefault(); // Prevent default form submit behavior
     try {
       await addBookToLocal(bookData);
       setBookData({
@@ -59,7 +60,7 @@ export default function AddBooks() {
     }
   }
 
-  function handleChange() {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === "isbn") {
       setIsbn(value);
@@ -76,66 +77,64 @@ export default function AddBooks() {
   return (
     <div>
       <h2>Add Book by ISBN</h2>
+      <form onSubmit={handleAdd}>
+        <label>ISBN</label>
+        <input
+          type="text"
+          name="isbn"
+          value={isbn}
+          onChange={handleChange}
+          placeholder="Enter ISBN (13 digits)"
+        />
 
-      <label>ISBN</label>
-      <input
-        type="text"
-        name="isbn"
-        value={isbn}
-        onChange={handleChange}
-        placeholder="Enter ISBN (13 digits)"
-      />
+        <label>Title</label>
+        <input
+          type="text"
+          name="title"
+          value={bookData.title}
+          onChange={handleChange}
+          disabled={!isbnEntered}
+        />
 
-      <label>Title</label>
-      <input
-        type="text"
-        name="title"
-        value={bookData.title}
-        onChange={handleChange}
-        disabled={!isbnEntered}
-      />
+        <label>Author</label>
+        <input
+          type="text"
+          name="author"
+          value={bookData.author}
+          onChange={handleChange}
+          disabled={!isbnEntered}
+        />
 
-      <label>Author</label>
-      <input
-        type="text"
-        name="author"
-        value={bookData.author}
-        onChange={handleChange}
-        disabled={!isbnEntered}
-      />
+        <label>Description</label>
+        <textarea
+          name="description"
+          value={bookData.description}
+          onChange={handleChange}
+          disabled={!isbnEntered}
+        />
 
-      <label>Description</label>
-      <textarea
-        name="description"
-        value={bookData.description}
-        onChange={handleChange}
-        disabled={!isbnEntered}
-      />
+        <label>Borrowed By</label>
+        <input
+          type="text"
+          name="borrowedBy"
+          value={bookData.borrowedBy}
+          onChange={handleChange}
+          disabled={!isbnEntered}
+        />
 
-      <label>Borrowed By</label>
-      <input
-        type="text"
-        name="borrowedBy"
-        value={bookData.borrowedBy}
-        onChange={handleChange}
-        disabled={!isbnEntered}
-      />
+        <label>Due Date</label>
+        <input
+          type="date"
+          name="dueDate"
+          value={bookData.dueDate}
+          onChange={handleChange}
+          disabled={!isbnEntered}
+        />
 
-      <label>Due Date</label>
-      <input
-        type="date"
-        name="dueDate"
-        value={bookData.dueDate}
-        onChange={handleChange}
-        disabled={!isbnEntered}
-      />
-
-      <button
-        onClick={handleAdd}
-        disabled={!isbnEntered}
-      >
-        Add Book
-      </button>
+        <button type="submit" disabled={!isbnEntered}>
+          Add Book
+        </button>
+      </form>
     </div>
   );
 }
