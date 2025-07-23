@@ -17,10 +17,10 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
   return (
 		// <div className="flex flex-wrap w-80 justify-center items-center gap-5 mx-auto">
-		<div className="block mt-2 bg-white w-64 rounded-[15px] shadow-md transition-shadow transition-transform duration-600 ease-in-out">
+		<div className="block mt-2 bg-red-900 w-64 rounded-[15px] shadow-md transition-shadow transition-transform duration-600 ease-in-out">
 			<div
 				id="img-available "
-				className=" bg-gray-50 flex items-center justify-center "
+				className="  flex items-center justify-center "
 			>
 				{!imageError ? (
 					<img
@@ -96,7 +96,7 @@ const Dashboard = () => {
 
 	return (
 		<main className="p-6">
-			<div className="grid gap-6">
+			<div className="flex flex-wrap w-auto justify-center items-center gap-5 mx-auto">
 				{displayBooks.map((book) => (
 					<BookCard
 						key={book.id}
