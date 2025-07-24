@@ -6,7 +6,6 @@ import { addBookToLocal, fetchBooks } from "../../../services/bookService";
 export default function AddBooks() {
 	const [isbn, setIsbn] = useState("");
 	const [bookData, setBookData] = useState({
-		id: "",
 		title: "",
 		author: "",
 		isbn: "",
@@ -28,7 +27,6 @@ export default function AddBooks() {
 			})();
 		} else {
 			setBookData({
-				id: "",
 				title: "",
 				author: "",
 				isbn: "",
@@ -43,15 +41,12 @@ export default function AddBooks() {
 	async function handleAdd(e) {
 		e.preventDefault();
 		try {
-			const books = await fetchBooks();
-			const maxId = books.reduce((max, b) => (b.id > max ? b.id : max), 0);
 			const newBook = {
 				...bookData,
-				id: String(Number(maxId) + 1),
+				isbn: isbn,
 			};
 			await addBookToLocal(newBook);
 			setBookData({
-				id: "",
 				title: "",
 				author: "",
 				isbn: "",
@@ -87,7 +82,6 @@ export default function AddBooks() {
 			</h2>
 
 			<form onSubmit={handleAdd} className="space-y-5">
-				{/* Required Fields */}
 				<div className="space-y-4">
 					<div>
 						<label className="block mb-1 font-medium">ISBN</label>
@@ -138,7 +132,6 @@ export default function AddBooks() {
 					</div>
 				</div>
 
-				{/* Optional Fields */}
 				<div className="border-t border-white/10 pt-6 space-y-4">
 					<h3 className="text-lg font-semibold text-white/90">
 						Borrowing Info (Optional)
@@ -169,7 +162,6 @@ export default function AddBooks() {
 					</div>
 				</div>
 
-				{/* Button */}
 				<div className="pt-6 flex justify-center items-center">
 					<button
 						type="submit"

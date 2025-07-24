@@ -7,10 +7,19 @@ import {
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
+
+import booksData from "../data/db.json";
+import { deleteBook } from "@/services/bookService";
 import { API } from "../api/index";
 
-// Component for displaying individual book information
-const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite }) => {
+// Book Card Component
+const BookCard = ({
+	book,
+	onShowMore,
+	isExpanded,
+	onToggleFavourite,
+	onDeleteBook,
+}) => {
 	const [imageError, setImageError] = useState(false);
 
 	return (
@@ -55,34 +64,42 @@ const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite }) => {
 					)}
 				</button>
 
-				<div className="flex items-center justify-between mt-4">
+				<div className="flex justify-center items-center mt-4">
 					<span className="text-xs uppercase text-gray-500">
 						{book.category}
 					</span>
-					<button
-						onClick={() => onToggleFavourite(book.id, book.isFavourite)}
-						aria-label="Toggle favorite"
-						className="transition-transform hover:scale-110"
-					>
-						{book.isFavourite ? (
-							<HeartSolid className="h-5 w-5 text-red-500" />
-						) : (
-							<HeartOutline className="h-5 w-5 text-gray-500" />
-						)}
-					</button>
+					<div className="flex justify-between items-center w-[80%] ">
+						<button
+							onClick={() => onToggleFavourite(book.id, book.isFavourite)}
+							aria-label="Toggle favorite"
+							className="transition-transform hover:scale-110"
+						>
+							{book.isFavourite ? (
+								<HeartSolid className="h-5 w-5 text-red-500" />
+							) : (
+								<HeartOutline className="h-5 w-5 text-gray-500" />
+							)}
+						</button>
+						<button
+							onClick={() => onDeleteBook(book.id)}
+							aria-label="Delete book"
+							className="transition-transform hover:scale-110 text-red-500 text-lg"
+						>
+							🗑️
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	);
 };
 
-// Main dashboard component managing views and state
+// Dashboard Component
 const Dashboard = () => {
-	const [books, setBooks] = useState([]);
+	const [books, setBooks] = useState(booksData.books);
 	const [expandedBooks, setExpandedBooks] = useState(new Set());
 	const [showAllBooks, setShowAllBooks] = useState(false);
 
-	// Load books from server
 	useEffect(() => {
 		fetch(API.local.books)
 			.then((res) => res.json())
@@ -98,6 +115,15 @@ const Dashboard = () => {
 			newSet.has(bookId) ? newSet.delete(bookId) : newSet.add(bookId);
 			return newSet;
 		});
+	};
+
+	const handleDelete = async (bookId) => {
+		try {
+			await deleteBook(bookId);
+			setBooks((prev) => prev.filter((book) => book.id !== bookId));
+		} catch (err) {
+			console.error("Failed to delete book:", err);
+		}
 	};
 
 	const handleToggleFavourite = async (bookId, currentStatus) => {
@@ -128,6 +154,7 @@ const Dashboard = () => {
 						book={book}
 						onShowMore={handleShowMore}
 						isExpanded={expandedBooks.has(book.id)}
+						onDeleteBook={handleDelete}
 						onToggleFavourite={handleToggleFavourite}
 					/>
 				))}
