@@ -2,7 +2,6 @@
 
 A modern, responsive personal book tracking application built with Next.js and React. Manage your book collection, track borrowing status, mark favorites, and discover new books through ISBN lookup.
 
-![My Bookie Banner](https://via.placeholder.com/800x200/0f172a/white?text=My+Bookie+-+Personal+Book+Tracker)
 
 ## ✨ Features
 
