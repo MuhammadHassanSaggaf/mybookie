@@ -5,12 +5,21 @@ import {
 	ChevronUpIcon,
 	EyeIcon,
 } from "@heroicons/react/24/outline";
+
+// Import static data
+import booksData from "../data/db.json";
+import { deleteBook } from "@/services/bookService";
+
+// Component for displaying individual book information
+
+
 import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 import { API } from "../api/index";
 
 // Component for displaying individual book information
-const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite }) => {
+const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite , onDeleteBook }) => {
+
 	const [imageError, setImageError] = useState(false);
 
 	return (
@@ -55,7 +64,18 @@ const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite }) => {
 					)}
 				</button>
 
+
+				<button
+					onClick={() => onDeleteBook(book.id)}
+					className="border-none text-red-500 rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
+				>
+					🗑️ Delete Book 
+				</button>
+
+				<div className="flex items-center justify-between">
+
 				<div className="flex items-center justify-between mt-4">
+
 					<span className="text-xs uppercase text-gray-500">
 						{book.category}
 					</span>
@@ -78,7 +98,9 @@ const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite }) => {
 
 // Main dashboard component managing views and state
 const Dashboard = () => {
-	const [books, setBooks] = useState([]);
+	const [books, setBooks] = useState(booksData.books);
+	
+
 	const [expandedBooks, setExpandedBooks] = useState(new Set());
 	const [showAllBooks, setShowAllBooks] = useState(false);
 
@@ -100,6 +122,13 @@ const Dashboard = () => {
 		});
 	};
 
+
+	const handleDelete = (bookId) => {
+		const booksToShow = books.filter( (book) => book.id != bookId);
+		setBooks(booksToShow);
+		deleteBook(bookId);
+	}
+
 	const handleToggleFavourite = async (bookId, currentStatus) => {
 		try {
 			await fetch(API.local.singleBook(bookId), {
@@ -117,6 +146,7 @@ const Dashboard = () => {
 		}
 	};
 
+
 	const displayBooks = showAllBooks ? books : books.slice(0, 3);
 
 	return (
@@ -127,6 +157,7 @@ const Dashboard = () => {
 						key={book.id}
 						book={book}
 						onShowMore={handleShowMore}
+						onDeleteBook={handleDelete}
 						isExpanded={expandedBooks.has(book.id)}
 						onToggleFavourite={handleToggleFavourite}
 					/>
