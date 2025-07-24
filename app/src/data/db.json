@@ -34,17 +34,6 @@
       "isFavourite": true
     },
     {
-      "id": "4",
-      "title": "Blink",
-      "author": "Malcolm Gladwell",
-      "isbn": "9780316057905",
-      "description": "No description available",
-      "borrowedBy": "",
-      "dueDate": "",
-      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780316057905-M.jpg",
-      "isFavourite": false
-    },
-    {
       "id": "5",
       "title": "The Man Who Knew Too Much",
       "author": "Gilbert Keith Chesterton",

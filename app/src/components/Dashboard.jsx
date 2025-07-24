@@ -9,9 +9,10 @@ import {
 
 // Import static data
 import booksData from "../data/db.json";
+import { deleteBook } from "@/services/bookService";
 
 // Component for displaying individual book information
-const BookCard = ({ book, onShowMore, isExpanded }) => {
+const BookCard = ({ book, onShowMore, isExpanded, onDeleteBook }) => {
 	const [imageError, setImageError] = useState(false);
 
   return (
@@ -59,6 +60,13 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 					)}
 				</button>
 
+				<button
+					onClick={() => onDeleteBook(book.id)}
+					className="border-none text-red-500 rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
+				>
+					🗑️ Delete Book 
+				</button>
+
 				<div className="flex items-center justify-between">
 					<span className="text-xs uppercase text-gray-500">
 						{book.category}
@@ -74,7 +82,7 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
 // Main dashboard component managing views and state
 const Dashboard = () => {
-	const [books] = useState(booksData.books);
+	const [books, setBooks] = useState(booksData.books);
 	const [expandedBooks, setExpandedBooks] = useState(new Set());
 	const [showAllBooks, setShowAllBooks] = useState(false);
 
@@ -88,6 +96,12 @@ const Dashboard = () => {
 		});
 	};
 
+	const handleDelete = (bookId) => {
+		const booksToShow = books.filter( (book) => book.id != bookId);
+		setBooks(booksToShow);
+		deleteBook(bookId);
+	}
+
 	const displayBooks = showAllBooks ? books : books.slice(0, 3);
 
 	return (
@@ -98,6 +112,7 @@ const Dashboard = () => {
 						key={book.id}
 						book={book}
 						onShowMore={handleShowMore}
+						onDeleteBook={handleDelete}
 						isExpanded={expandedBooks.has(book.id)}
 					/>
 				))}
