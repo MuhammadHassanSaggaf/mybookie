@@ -1,8 +1,9 @@
-
 "use client";
 import React, { useEffect, useState } from "react";
 import { API } from "../api/index";
-import { BookOpenIcon, HeartIcon } from "@heroicons/react/24/outline";
+import { BookOpenIcon } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
 
 export default function BookData({ bookId: propBookId, filter = "all" }) {
 	const [book, setBook] = useState(null);
@@ -10,46 +11,50 @@ export default function BookData({ bookId: propBookId, filter = "all" }) {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 
-useEffect(() => {
-	async function fetchBook() {
-		setLoading(true);
-		setError(null);
-		try {
-			let id = propBookId;
-
-			// If no bookId, fetch one at random
-			if (!id) {
-				const listRes = await fetch(API.local.books);
-				if (!listRes.ok) throw new Error(`HTTP ${listRes.status}`);
-				let list = await listRes.json();
-
-				// Apply filter
-				if (filter === "favourites") {
-					list = list.filter((b) => b.isFavourite);
-				} else if (filter === "borrowed") {
-					list = list.filter((b) => b.borrowedBy);
+	useEffect(() => {
+		async function fetchBook() {
+			setLoading(true);
+			setError(null);
+			try {
+				let id = propBookId;
+				if (!id) {
+					const listRes = await fetch(API.local.books);
+					if (!listRes.ok) throw new Error(`HTTP ${listRes.status}`);
+					let list = await listRes.json();
+					if (filter === "favourites") list = list.filter((b) => b.isFavourite);
+					else if (filter === "borrowed")
+						list = list.filter((b) => b.borrowedBy);
+					if (!list.length)
+						throw new Error("No books available for this filter.");
+					id = list[Math.floor(Math.random() * list.length)].id;
 				}
-
-				if (!list.length)
-					throw new Error("No books available for this filter.");
-				const random = list[Math.floor(Math.random() * list.length)];
-				id = random.id;
+				const res = await fetch(API.local.singleBook(id));
+				if (!res.ok) throw new Error(`HTTP ${res.status}`);
+				setBook(await res.json());
+			} catch (err) {
+				setError(err.message);
+			} finally {
+				setLoading(false);
 			}
-
-			const res = await fetch(API.local.singleBook(id));
-			if (!res.ok) throw new Error(`HTTP ${res.status}`);
-			const data = await res.json();
-			setBook(data);
-		} catch (err) {
-			setError(err.message);
-		} finally {
-			setLoading(false);
 		}
-	}
+		fetchBook();
+	}, [propBookId, filter]);
 
-	fetchBook();
-}, [propBookId, filter]);
-
+	const toggleFavourite = async () => {
+		if (!book) return;
+		try {
+			const updated = { isFavourite: !book.isFavourite };
+			const res = await fetch(API.local.singleBook(book.id), {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(updated),
+			});
+			if (!res.ok) throw new Error(`HTTP ${res.status}`);
+			setBook((prev) => ({ ...prev, isFavourite: !prev.isFavourite }));
+		} catch (err) {
+			console.error("Failed to update favourite:", err);
+		}
+	};
 
 	if (loading) return <p className="text-center text-white">Loading...</p>;
 	if (error) return <p className="text-center text-red-500">Error: {error}</p>;
@@ -84,7 +89,19 @@ useEffect(() => {
 			</div>
 
 			<div className="p-4 space-y-2">
-				<h3 className="text-lg font-semibold">{title}</h3>
+				<div className="flex justify-between items-center">
+					<h3 className="text-lg font-semibold">{title}</h3>
+					<button
+						onClick={toggleFavourite}
+						className="transition-transform hover:scale-110"
+					>
+						{isFavourite ? (
+							<HeartSolid className="h-6 w-6 text-red-500" />
+						) : (
+							<HeartOutline className="h-6 w-6 text-gray-500" />
+						)}
+					</button>
+				</div>
 				<p className="text-sm">by {author}</p>
 
 				<ul className="text-sm space-y-1">
@@ -100,14 +117,6 @@ useEffect(() => {
 					</li>
 					<li>
 						<span className="font-medium">Due Date:</span> {dueDate || "N/A"}
-					</li>
-					<li className="flex items-center">
-						<span className="font-medium mr-1">Favourite:</span>
-						{isFavourite ? (
-							<HeartIcon className="h-5 w-5 text-red-500" />
-						) : (
-							<HeartIcon className="h-5 w-5 text-gray-500" />
-						)}
 					</li>
 				</ul>
 			</div>
