@@ -1,0 +1,89 @@
+{
+  "books": [
+    {
+      "id": "2",
+      "title": "The Hobbit",
+      "author": "J.R.R. Tolkien",
+      "isbn": "9780547928227",
+      "description": "Bilbo Baggins embarks on a thrilling quest with a band of dwarves to reclaim their mountain home from a fearsome dragon.",
+      "borrowedBy": "Alice",
+      "dueDate": "2025-08-01",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780547928227-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "3",
+      "title": "Educated",
+      "author": "Tara Westover",
+      "isbn": "9780399590504",
+      "description": "A memoir of a woman who grows up in a strict and abusive household in rural Idaho but eventually escapes to learn about the wider world through education.",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780399590504-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "5",
+      "title": "The Man Who Knew Too Much",
+      "author": "Gilbert Keith Chesterton",
+      "isbn": "9781600965227",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg",
+      "isFavourite": false
+    },
+    {
+      "id": "7",
+      "title": "Lake Haupiri Moon",
+      "author": "Mary Moore",
+      "isbn": "9780373026869",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780373026869-M.jpg",
+      "isFavourite": false
+    },
+    {
+      "id": "8",
+      "title": "Ciaphas Cain",
+      "author": "Sandy Mitchell",
+      "isbn": "9781844164660",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781844164660-M.jpg"
+    },
+    {
+      "id": "9",
+      "title": "Matilda",
+      "author": "Roald Dahl",
+      "isbn": "9780224070966",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780224070966-M.jpg"
+    },
+    {
+      "id": "220f",
+      "title": "La Muerte Un Amanecer",
+      "author": "Elisabeth Kübler-Ross",
+      "isbn": "9788449441653",
+      "description": "No description available",
+      "borrowedBy": "Alice",
+      "dueDate": "2025-08-15",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9788449441653-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "8539",
+      "title": "El arte de vivir como un estoico",
+      "author": "David Fideler",
+      "isbn": "9788449339301",
+      "description": "Source title: El arte de vivir como un estoico: Desayunar con Séneca para alcanzar una vida buena",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9788449339301-M.jpg"
+    }
+  ]
+}
