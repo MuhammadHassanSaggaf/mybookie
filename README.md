@@ -32,7 +32,7 @@ A modern, responsive personal book tracking application built with Next.js and R
 - **Icons**: Heroicons
 - **Backend**:  Render hosting JSON-Server (Development)
 - **API Integration**: Open Library API
-- **Font**: Geist (Google Fonts)
+- **Font**: Inter (Google Fonts)
 
 ## 📁 Project Structure
 
