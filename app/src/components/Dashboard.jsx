@@ -1,22 +1,21 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	BookOpenIcon,
 	ChevronUpIcon,
 	EyeIcon,
-	HeartIcon,
 } from "@heroicons/react/24/outline";
-
-// Import static data
-import booksData from "../data/db.json";
+import { HeartIcon as HeartOutline } from "@heroicons/react/24/outline";
+import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
+import { API } from "../api/index";
 
 // Component for displaying individual book information
-const BookCard = ({ book, onShowMore, isExpanded }) => {
+const BookCard = ({ book, onShowMore, isExpanded, onToggleFavourite }) => {
 	const [imageError, setImageError] = useState(false);
 
-  return (
+	return (
 		<div className="mt-4 mr-4 ml-4 flex flex-col justify-evenly flex-wrap shadow-[0_4px_30px_rgba(0,0,0,0.8)] backdrop-blur-sm hover:scale-105 bg-gradient-to-br from-black via-gray-900 to-black text-white w-64 min-h-[442px] transition-all rounded-[15px] hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] duration-600 ease-in-out">
-			<div id="img-available " className="  flex items-center justify-center ">
+			<div className="flex items-center justify-center">
 				{!imageError ? (
 					<img
 						src={book.coverUrl}
@@ -25,18 +24,15 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 						className="object-contain h-[278px] rounded-t-[15px]"
 					/>
 				) : (
-					<div className="flex items-center justify-center w-24 bg-gray-100">
-						<BookOpenIcon
-							aria-label="Book cover not available"
-							className="h-8 w-8 text-gray-400"
-						/>
+					<div className="flex items-center justify-center w-full h-[278px] bg-gray-800 rounded-t-[15px]">
+						<BookOpenIcon className="h-12 w-12 text-gray-500" />
 					</div>
 				)}
 			</div>
 
 			<div className="p-4">
 				<h3 className="text-lg font-semibold">{book.title}</h3>
-				<p className="text-sm  mb-2">by {book.author}</p>
+				<p className="text-sm mb-2">by {book.author}</p>
 
 				{isExpanded && (
 					<p className="mb-2">{book.fullDescription || book.description}</p>
@@ -44,7 +40,7 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
 				<button
 					onClick={() => onShowMore(book.id)}
-					className="border-none  rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
+					className="border-none rounded-[10px] text-sm cursor-pointer font-medium font-inter transition-transform duration-500 ease-in-out flex hover:scale-105"
 				>
 					{isExpanded ? (
 						<>
@@ -59,12 +55,20 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 					)}
 				</button>
 
-				<div className="flex items-center justify-between">
+				<div className="flex items-center justify-between mt-4">
 					<span className="text-xs uppercase text-gray-500">
 						{book.category}
 					</span>
-					<button aria-label="Add to favorites" className="hover:text-red-500">
-						<HeartIcon className="h-5 w-5" />
+					<button
+						onClick={() => onToggleFavourite(book.id, book.isFavourite)}
+						aria-label="Toggle favorite"
+						className="transition-transform hover:scale-110"
+					>
+						{book.isFavourite ? (
+							<HeartSolid className="h-5 w-5 text-red-500" />
+						) : (
+							<HeartOutline className="h-5 w-5 text-gray-500" />
+						)}
 					</button>
 				</div>
 			</div>
@@ -74,9 +78,17 @@ const BookCard = ({ book, onShowMore, isExpanded }) => {
 
 // Main dashboard component managing views and state
 const Dashboard = () => {
-	const [books] = useState(booksData.books);
+	const [books, setBooks] = useState([]);
 	const [expandedBooks, setExpandedBooks] = useState(new Set());
 	const [showAllBooks, setShowAllBooks] = useState(false);
+
+	// Load books from server
+	useEffect(() => {
+		fetch(API.local.books)
+			.then((res) => res.json())
+			.then(setBooks)
+			.catch((err) => console.error("Error loading books:", err));
+	}, []);
 
 	const handleShowAllBooks = () => setShowAllBooks(true);
 
@@ -88,17 +100,35 @@ const Dashboard = () => {
 		});
 	};
 
+	const handleToggleFavourite = async (bookId, currentStatus) => {
+		try {
+			await fetch(API.local.singleBook(bookId), {
+				method: "PATCH",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({ isFavourite: !currentStatus }),
+			});
+			setBooks((prevBooks) =>
+				prevBooks.map((b) =>
+					b.id === bookId ? { ...b, isFavourite: !currentStatus } : b,
+				),
+			);
+		} catch (err) {
+			console.error("Failed to update favorite:", err);
+		}
+	};
+
 	const displayBooks = showAllBooks ? books : books.slice(0, 3);
 
 	return (
 		<main className="p-6">
-			<div className="flex flex-wrap w-auto justify-evenly items-center gap-auto mx-auto">
+			<div className="flex flex-wrap justify-evenly items-center gap-6 mx-auto">
 				{displayBooks.map((book) => (
 					<BookCard
 						key={book.id}
 						book={book}
 						onShowMore={handleShowMore}
 						isExpanded={expandedBooks.has(book.id)}
+						onToggleFavourite={handleToggleFavourite}
 					/>
 				))}
 			</div>
@@ -107,7 +137,7 @@ const Dashboard = () => {
 				<div className="mt-6 text-center">
 					<button
 						onClick={handleShowAllBooks}
-						className="bg-gradient-to-br from-black via-gray-900 to-black text-white rounded-[10px] inline-flex items-center px-4 py-2  transition-all duration-300 ease-in-out shadow-[0_8px_20px_rgba(255,255,255,0.05)] hover:scale-105 hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] focus:outline-none focus:ring-2 focus:ring-white/30"
+						className="bg-gradient-to-br from-black via-gray-900 to-black text-white rounded-[10px] inline-flex items-center px-4 py-2 transition-all duration-300 ease-in-out shadow-[0_8px_20px_rgba(255,255,255,0.05)] hover:scale-105 hover:shadow-[0_12px_24px_rgba(255,255,255,0.08)] focus:outline-none focus:ring-2 focus:ring-white/30"
 					>
 						<BookOpenIcon className="h-5 w-5 mr-2" />
 						Show All Books ({books.length} total)
