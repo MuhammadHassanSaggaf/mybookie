@@ -1,17 +1,6 @@
 {
   "books": [
     {
-      "id": "1",
-      "title": "Sapiens: A Brief History of Humankind",
-      "author": "Yuval Noah Harari",
-      "isbn": "9780062316097",
-      "description": "A sweeping narrative of humanity’s creation and evolution, exploring how biology and history have defined us.",
-      "borrowedBy": "CurrentUser",
-      "dueDate": "2025-12-31",
-      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg",
-      "isFavourite": true
-    },
-    {
       "id": "2",
       "title": "The Hobbit",
       "author": "J.R.R. Tolkien",
@@ -34,17 +23,6 @@
       "isFavourite": true
     },
     {
-      "id": "4",
-      "title": "Blink",
-      "author": "Malcolm Gladwell",
-      "isbn": "9780316057905",
-      "description": "No description available",
-      "borrowedBy": "",
-      "dueDate": "",
-      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780316057905-M.jpg",
-      "isFavourite": false
-    },
-    {
       "id": "5",
       "title": "The Man Who Knew Too Much",
       "author": "Gilbert Keith Chesterton",
@@ -52,17 +30,60 @@
       "description": "No description available",
       "borrowedBy": "",
       "dueDate": "",
-      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg"
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg",
+      "isFavourite": false
     },
     {
-      "id": "6",
-      "title": "Enchanters' End Game (The Belgariad, Book 5)",
-      "author": "David Eddings",
-      "isbn": "9780345418869",
+      "id": "7",
+      "title": "Lake Haupiri Moon",
+      "author": "Mary Moore",
+      "isbn": "9780373026869",
       "description": "No description available",
       "borrowedBy": "",
       "dueDate": "",
-      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780345418869-M.jpg"
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780373026869-M.jpg",
+      "isFavourite": false
+    },
+    {
+      "id": "8",
+      "title": "Ciaphas Cain",
+      "author": "Sandy Mitchell",
+      "isbn": "9781844164660",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781844164660-M.jpg"
+    },
+    {
+      "id": "9",
+      "title": "Matilda",
+      "author": "Roald Dahl",
+      "isbn": "9780224070966",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780224070966-M.jpg"
+    },
+    {
+      "id": "220f",
+      "title": "La Muerte Un Amanecer",
+      "author": "Elisabeth Kübler-Ross",
+      "isbn": "9788449441653",
+      "description": "No description available",
+      "borrowedBy": "Alice",
+      "dueDate": "2025-08-15",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9788449441653-M.jpg",
+      "isFavourite": true
+    },
+    {
+      "id": "8539",
+      "title": "El arte de vivir como un estoico",
+      "author": "David Fideler",
+      "isbn": "9788449339301",
+      "description": "Source title: El arte de vivir como un estoico: Desayunar con Séneca para alcanzar una vida buena",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9788449339301-M.jpg"
     }
   ]
 }

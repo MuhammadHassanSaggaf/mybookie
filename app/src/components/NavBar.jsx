@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
@@ -20,10 +21,18 @@ export default function Navbar() {
 		>
 			<div className="flex h-14 items-center justify-between gap-8 px-4 sm:px-6">
 				{/* Logo / Brand */}
+				
 				<Link
 					href="/"
-					className="text-2xl font-bold hover:-translate-y-[1px] transition-transform duration-200"
+					className="flex justify-evenly it text-2xl font-bold hover:-translate-y-[1px] transition-transform duration-200"
 				>
+					<Image
+						src="/icons8-book-32.png"
+						alt="My Bookie Logo"
+						width={28}
+						height={28}
+						className="rounded-sm"
+					/>
 					My Bookie
 				</Link>
 
