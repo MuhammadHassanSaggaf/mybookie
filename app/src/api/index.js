@@ -1,4 +1,4 @@
-const JSON_SERVER_URL = "http://localhost:3001";
+const JSON_SERVER_URL = "https://my-bookie-server.onrender.com";
 const OPEN_LIBRARY_API = "https://openlibrary.org";
 const COVER_BASE = "https://covers.openlibrary.org/b/isbn";
 
