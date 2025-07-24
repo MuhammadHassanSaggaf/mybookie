@@ -9,7 +9,7 @@
       "borrowedBy": "CurrentUser",
       "dueDate": "2025-12-31",
       "coverUrl": "https://covers.openlibrary.org/b/isbn/9780062316097-M.jpg",
-      "isFavourite": true
+      "isFavourite": false
     },
     {
       "id": "2",
@@ -41,7 +41,8 @@
       "description": "No description available",
       "borrowedBy": "",
       "dueDate": "",
-      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg"
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9781600965227-M.jpg",
+      "isFavourite": false
     },
     {
       "id": "6",
@@ -52,6 +53,27 @@
       "borrowedBy": "",
       "dueDate": "",
       "coverUrl": "https://covers.openlibrary.org/b/isbn/9780345418869-M.jpg"
+    },
+    {
+      "id": "7",
+      "title": "Lake Haupiri Moon",
+      "author": "Mary Moore",
+      "isbn": "9780373026869",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780373026869-M.jpg",
+      "isFavourite": false
+    },
+    {
+      "id": "8",
+      "title": "Blaze",
+      "author": "Stephen King",
+      "isbn": "9780739484630",
+      "description": "No description available",
+      "borrowedBy": "",
+      "dueDate": "",
+      "coverUrl": "https://covers.openlibrary.org/b/isbn/9780739484630-M.jpg"
     }
   ]
 }
