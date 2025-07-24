@@ -123,3 +123,4 @@ export default function BookData({ bookId: propBookId, filter = "all" }) {
 		</div>
 	);
 }
+
