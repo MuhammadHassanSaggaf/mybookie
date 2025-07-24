@@ -114,9 +114,9 @@ my-bookie/
 
 The app uses two main API sources:
 
-### Local JSON Server
+### My Bookie Server API
 ```javascript
-const JSON_SERVER_URL = "http://localhost:3001";
+const JSON_SERVER_URL = "https://my-bookie-server.onrender.com";
 ```
 - **GET** `/books` - Fetch all books
 - **POST** `/books` - Add new book
